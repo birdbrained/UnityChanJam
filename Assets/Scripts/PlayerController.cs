@@ -62,21 +62,31 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision c)
     {
+        int canGiveScore = 0;
         GameObject other = c.collider.gameObject;
+
         Debug.Log("HIT: " + other.gameObject.name + ", tag: " + other.gameObject.tag);
         float damage = 0;
         if (other.gameObject.tag == "Object")
         {
             damage = other.gameObject.GetComponent<Rigidbody>().mass * rb.velocity.magnitude;
+            canGiveScore = 1;
         }
         else if (other.gameObject.tag == "Front")
         {
             if (rb.velocity.magnitude >= 20f)
+            {
                 damage = health;
+            }
             else
+            {
                 damage = other.gameObject.GetComponentInParent<Rigidbody>().mass * rb.velocity.magnitude;
+                canGiveScore = 1;
+            }
         }
         Debug.Log("Damage: " + damage.ToString("F2"));
         health -= damage;
+        if (canGiveScore == 1)
+            GameManager.Score += (int)damage * 1000; 
     }
 }
