@@ -26,6 +26,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Material blownupMaterial;
 
+    /*
+    private bool timerActive = false;
+    private float timer = 15f;
+    [SerializeField]
+    private Text timerText;
+    */
+
     // Use this for initialization
 	void Start () 
     {
@@ -51,6 +58,19 @@ public class PlayerController : MonoBehaviour
             else
                 speedRing.color = highSpeedColor;
         }
+        /*if (timerActive && timerText != null)
+        {
+            timerText.text = "0:" + timer.ToString("00");
+            timer -= Time.deltaTime;
+            if (timer <= 0f)
+            {
+                timerActive = false;
+                Debug.Log("Time's up!");
+            }
+        }
+        else if (!timerActive && timerText != null)
+            timerText.text = "";
+        */
         //Debug.Log("Player velocity: " + rb.velocity.magnitude.ToString());
         if (transform.position.y < -40f)
         {
@@ -79,6 +99,8 @@ public class PlayerController : MonoBehaviour
         if (blownupMaterial != null)
             GetComponentInChildren<Renderer>().material = blownupMaterial;
         canExplode = false;
+        //timerActive = true;
+        GameManager.Instance.TimerActive = true;
     }
 
     void OnCollisionEnter(Collision c)

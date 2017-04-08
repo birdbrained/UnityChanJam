@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class GameManager : MonoBehaviour 
@@ -29,9 +30,24 @@ public class GameManager : MonoBehaviour
             score = value;
         }
     }
-
     [SerializeField]
     private Text scoreText;
+
+    private static bool timerActive = false;
+    public bool TimerActive
+    {
+        get
+        {
+            return timerActive;
+        }
+        set
+        {
+            timerActive = value;
+        }
+    }
+    private float timer = 15f;
+    [SerializeField]
+    private Text timerText;
 
     /*private static float health;
     public float Health
@@ -88,5 +104,19 @@ public class GameManager : MonoBehaviour
         //healthText.text = health.ToString("F2");
         if (scoreText != null)
             scoreText.text = CashifyIt(score);
+
+        if (timerActive && timerText != null)
+        {
+            timerText.text = "0:" + timer.ToString("00");
+            timer -= Time.deltaTime;
+            if (timer <= 0f)
+            {
+                timerActive = false;
+                Debug.Log("Time's up!");
+                SceneManager.LoadScene("GameOver");
+            }
+        }
+        else if (!timerActive && timerText != null)
+            timerText.text = "";
     }
 }
