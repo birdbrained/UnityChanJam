@@ -4,11 +4,13 @@ using System.Collections;
 public class UnityChanAnimator : MonoBehaviour 
 {
     private Animator ani;
+    private PlayerController player;
 
     // Use this for initialization
     void Start () 
     {
         ani = GetComponent<Animator>();
+        player = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 	
     // Update is called once per frame
@@ -40,12 +42,23 @@ public class UnityChanAnimator : MonoBehaviour
             ani.SetBool("default_b", true);
         }*/
 
-        if (Input.GetAxis("Horizontal") < 0)
-            ani.Play("myUnitychan_turnLeft");
-        else if (Input.GetAxis("Horizontal") > 0)
-            ani.Play("myUnitychan_turnRight");
+        if (player.health > 0f)
+        {
+            if (Input.GetAxis("Horizontal") < 0)
+                ani.Play("myUnitychan_turnLeft");
+            else if (Input.GetAxis("Horizontal") > 0)
+                ani.Play("myUnitychan_turnRight");
+            else if (Input.GetAxis("Vertical") > 0)
+                ani.Play("myUnitychan_forward");
+            else if (Input.GetAxis("Vertical") < 0)
+                ani.Play("myUnitychan_backward");
+            else
+                ani.Play("myUnitychan_default");
+        }
         else
-            ani.Play("myUnitychan_default");
+        {
+            ani.Play("myUnitychan_death");
+        }
     }
 
     void ResetAnimations()

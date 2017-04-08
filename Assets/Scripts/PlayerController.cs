@@ -60,6 +60,10 @@ public class PlayerController : MonoBehaviour
         {
             Explode();
         }
+        else if (health <= 0)
+        {
+            rb.velocity *= 0.9f;
+        }
 	}
 
     public void Explode()
@@ -67,7 +71,7 @@ public class PlayerController : MonoBehaviour
         //CarUserControl.Instance.CanMove = false;
         CarUserControl car = GetComponent<CarUserControl>();
         car.CanMove = false;
-        rb.velocity *= 0.8f;
+        //rb.velocity *= 0.8f;
         if (explosionObject != null)
         {
             Instantiate(explosionObject, gameObject.transform.position, gameObject.transform.rotation);
@@ -102,15 +106,24 @@ public class PlayerController : MonoBehaviour
             }
         }
         //Debug.Log("Damage: " + damage.ToString("F2"));
-        health -= damage;
-        if (canGiveScore == 1)
-            GameManager.Instance.Score += (int)damage * 1000; 
-
         //Hurt other object
         Enemy enemy = other.gameObject.GetComponent<Enemy>();
         if (enemy != null)
         {
-            enemy.setHealth(enemy.getHealth() - damage);
+            //If the enemy still has health left, damage them
+            if (enemy.getHealth() > 0f)
+            {
+                enemy.setHealth(enemy.getHealth() - damage);
+            }
+            else
+            {
+                canGiveScore = 0;
+            }
+            //...but if they are already dead, you can't get more score from them
         }
+
+        health -= damage;
+        if (canGiveScore == 1)
+            GameManager.Instance.Score += (int)damage * 1000; 
     }
 }

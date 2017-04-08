@@ -40,7 +40,7 @@ namespace UnityStandardAssets.Vehicles.Car
                 float h = Input.GetAxis("Horizontal");
                 float v = Input.GetAxis("Vertical");
 
-                float handbrake = Input.GetAxis("Jump");
+                float handbrake = (Input.GetAxis("Jump"));
                 m_Car.Move(h, v, v, handbrake);
             }
         }
