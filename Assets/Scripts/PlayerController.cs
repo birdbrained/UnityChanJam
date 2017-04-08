@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
         //CarUserControl.Instance.CanMove = false;
         CarUserControl car = GetComponent<CarUserControl>();
         car.CanMove = false;
-        rb.velocity *= 0.9f;
+        rb.velocity *= 0.8f;
         if (explosionObject != null)
         {
             Instantiate(explosionObject, gameObject.transform.position, gameObject.transform.rotation);
