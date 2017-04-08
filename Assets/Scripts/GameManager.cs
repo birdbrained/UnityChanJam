@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private static float health;
+    /*private static float health;
     public float Health
     {
         get
@@ -28,17 +28,17 @@ public class GameManager : MonoBehaviour
         {
             health = value;
         }
-    }
+    }*/
 
-    public Text healthText;
+    //public Text healthText;
 
     // Use this for initialization
     void Start () {
-        healthText.text = health.ToString("F2");
+        //healthText.text = health.ToString("F2");
     }
 
     // Update is called once per frame
     void Update () {
-        healthText.text = health.ToString("F2");
+        //healthText.text = health.ToString("F2");
     }
 }
