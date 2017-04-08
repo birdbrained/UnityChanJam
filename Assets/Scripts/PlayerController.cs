@@ -6,21 +6,45 @@ using UnityStandardAssets.Vehicles.Car;
 public class PlayerController : MonoBehaviour 
 {
     public float health;
+    private float maxHealth;
     [SerializeField]
     private Text healthText;
+    [SerializeField]
+    private Image healthBar;
+    [SerializeField]
+    private Text speedText;
+    [SerializeField]
+    private Image speedRing;
     private Rigidbody rb;
+
+    private Color safeSpeedColor = new Color(0.302f, 0.855f, 1f, 1f);
+    private Color highSpeedColor = new Color(1f, 0.663f, 0.302f, 1f);
 
     // Use this for initialization
 	void Start () 
     {
         //GameManager.Instance.Health = health;
+        maxHealth = health;
         rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
 	void Update () 
     {
-        healthText.text = health.ToString("F2");
+        if (healthText != null)
+            healthText.text = health.ToString("F2");
+        if (healthBar != null)
+            healthBar.fillAmount = (health / maxHealth);
+        if (speedText != null)
+            speedText.text = rb.velocity.magnitude.ToString("F2");
+        if (speedRing != null)
+        {
+            speedRing.fillAmount = (rb.velocity.magnitude / 35);
+            if (rb.velocity.magnitude < 20f)
+                speedRing.color = safeSpeedColor;
+            else
+                speedRing.color = highSpeedColor;
+        }
         //Debug.Log("Player velocity: " + rb.velocity.magnitude.ToString());
         if (health <= 0f)
         {
