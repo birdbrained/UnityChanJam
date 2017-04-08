@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject explosionObject;
     private bool canExplode = true;
+    [SerializeField]
+    private Material blownupMaterial;
 
     // Use this for initialization
 	void Start () 
@@ -50,13 +52,12 @@ public class PlayerController : MonoBehaviour
                 speedRing.color = highSpeedColor;
         }
         //Debug.Log("Player velocity: " + rb.velocity.magnitude.ToString());
-        if (health <= 0f && canExplode)
-        {
-            Explode();
-        }
-        if (transform.position.y < -40f && canExplode)
+        if (transform.position.y < -40f)
         {
             health = 0;
+        }
+        if (health <= 0f && canExplode)
+        {
             Explode();
         }
 	}
@@ -71,6 +72,8 @@ public class PlayerController : MonoBehaviour
         {
             Instantiate(explosionObject, gameObject.transform.position, gameObject.transform.rotation);
         }
+        if (blownupMaterial != null)
+            GetComponentInChildren<Renderer>().material = blownupMaterial;
         canExplode = false;
     }
 
@@ -79,7 +82,7 @@ public class PlayerController : MonoBehaviour
         int canGiveScore = 0;
         GameObject other = c.collider.gameObject;
 
-        Debug.Log("HIT: " + other.gameObject.name + ", tag: " + other.gameObject.tag);
+        //Debug.Log("HIT: " + other.gameObject.name + ", tag: " + other.gameObject.tag);
         float damage = 0;
         if (other.gameObject.tag == "Object")
         {
@@ -98,9 +101,16 @@ public class PlayerController : MonoBehaviour
                 canGiveScore = 1;
             }
         }
-        Debug.Log("Damage: " + damage.ToString("F2"));
+        //Debug.Log("Damage: " + damage.ToString("F2"));
         health -= damage;
         if (canGiveScore == 1)
             GameManager.Instance.Score += (int)damage * 1000; 
+
+        //Hurt other object
+        Enemy enemy = other.gameObject.GetComponent<Enemy>();
+        if (enemy != null)
+        {
+            enemy.setHealth(enemy.getHealth() - damage);
+        }
     }
 }
