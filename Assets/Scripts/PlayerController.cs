@@ -131,6 +131,10 @@ public class PlayerController : MonoBehaviour
                 canGiveScore = 1;
             }
         }
+        else if (other.gameObject.tag == "Wall")
+        {
+            damage = other.gameObject.GetComponent<Rigidbody>().mass * rb.velocity.magnitude;
+        }
         //Debug.Log("Damage: " + damage.ToString("F2"));
         //Hurt other object
         Enemy enemy = other.gameObject.GetComponent<Enemy>();
