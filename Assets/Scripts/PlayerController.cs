@@ -54,6 +54,11 @@ public class PlayerController : MonoBehaviour
         {
             Explode();
         }
+        if (transform.position.y < -40f && canExplode)
+        {
+            health = 0;
+            Explode();
+        }
 	}
 
     public void Explode()
