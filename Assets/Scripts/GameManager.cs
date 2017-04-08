@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     }
 
     private static int score;
-    public static int Score
+    public int Score
     {
         get
         {

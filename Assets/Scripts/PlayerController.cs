@@ -20,6 +20,10 @@ public class PlayerController : MonoBehaviour
     private Color safeSpeedColor = new Color(0.302f, 0.855f, 1f, 1f);
     private Color highSpeedColor = new Color(1f, 0.663f, 0.302f, 1f);
 
+    [SerializeField]
+    private GameObject explosionObject;
+    private bool canExplode = true;
+
     // Use this for initialization
 	void Start () 
     {
@@ -46,7 +50,7 @@ public class PlayerController : MonoBehaviour
                 speedRing.color = highSpeedColor;
         }
         //Debug.Log("Player velocity: " + rb.velocity.magnitude.ToString());
-        if (health <= 0f)
+        if (health <= 0f && canExplode)
         {
             Explode();
         }
@@ -58,6 +62,11 @@ public class PlayerController : MonoBehaviour
         CarUserControl car = GetComponent<CarUserControl>();
         car.CanMove = false;
         rb.velocity *= 0.9f;
+        if (explosionObject != null)
+        {
+            Instantiate(explosionObject, gameObject.transform.position, gameObject.transform.rotation);
+        }
+        canExplode = false;
     }
 
     void OnCollisionEnter(Collision c)
@@ -87,6 +96,6 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Damage: " + damage.ToString("F2"));
         health -= damage;
         if (canGiveScore == 1)
-            GameManager.Score += (int)damage * 1000; 
+            GameManager.Instance.Score += (int)damage * 1000; 
     }
 }
