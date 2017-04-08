@@ -7,11 +7,11 @@ public class DestroyAfterBeingHit : MonoBehaviour
     private string otherTag;
     [SerializeField]
     private float waitBeforeDestroying;
-    private AudioSource boxHitSound;
+    private AudioSource hitSound;
 
     void Start()
     {
-        boxHitSound = GetComponent<AudioSource>();
+        hitSound = GetComponent<AudioSource>();
     }
 
     private IEnumerator Kill()
@@ -24,8 +24,9 @@ public class DestroyAfterBeingHit : MonoBehaviour
     {
         if (other.gameObject.tag == otherTag)
         {
-            if (boxHitSound != null)
-                boxHitSound.Play();
+            //Debug.Log("Hit!");
+            if (hitSound != null)
+                hitSound.Play();
             StartCoroutine(Kill());
         }
     }

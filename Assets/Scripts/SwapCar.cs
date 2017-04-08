@@ -15,7 +15,7 @@ public class SwapCar : MonoBehaviour
     [SerializeField]
     private Vector3[] carMeshPositions;
     [SerializeField]
-    private Quaternion[] carRotations;
+    private Vector3[] carRotations;
     [SerializeField]
     private Vector3[] carScales;
 
@@ -50,9 +50,9 @@ public class SwapCar : MonoBehaviour
             car.GetComponentInChildren<MeshFilter>().mesh = carMeshes[index];
             car.GetComponentInChildren<Renderer>().material = carMaterials[index];
             GameObject mainMesh = GameObject.Find("MainMesh");
-            mainMesh.transform.localPosition = carMeshPositions[index];
-            mainMesh.transform.rotation = carRotations[index];
             mainMesh.transform.localScale = carScales[index];
+            mainMesh.transform.localEulerAngles = carRotations[index];
+            mainMesh.transform.localPosition = carMeshPositions[index];
             //car.transform.rotation = carRotations[index];
             if (unitychan != null)
                 unitychan.gameObject.transform.localPosition = driverSeats[index];
