@@ -45,7 +45,7 @@ public class UnityChanAnimator : MonoBehaviour
         else if (Input.GetAxis("Horizontal") > 0)
             ani.Play("myUnitychan_turnRight");
         else
-            ani.Play("myUnitychan_waveGo");
+            ani.Play("myUnitychan_default");
     }
 
     void ResetAnimations()
