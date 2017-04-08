@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityStandardAssets.Vehicles.Car;
 
 public class PlayerController : MonoBehaviour 
 {
@@ -20,7 +21,20 @@ public class PlayerController : MonoBehaviour
 	void Update () 
     {
         healthText.text = health.ToString("F2");
+        //Debug.Log("Player velocity: " + rb.velocity.magnitude.ToString());
+        if (health <= 0f)
+        {
+            Explode();
+        }
 	}
+
+    public void Explode()
+    {
+        //CarUserControl.Instance.CanMove = false;
+        CarUserControl car = GetComponent<CarUserControl>();
+        car.CanMove = false;
+        rb.velocity *= 0.9f;
+    }
 
     void OnCollisionEnter(Collision c)
     {
@@ -33,7 +47,10 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.gameObject.tag == "Front")
         {
-            damage = health;
+            if (rb.velocity.magnitude >= 20f)
+                damage = health;
+            else
+                damage = other.gameObject.GetComponentInParent<Rigidbody>().mass * rb.velocity.magnitude;
         }
         Debug.Log("Damage: " + damage.ToString("F2"));
         health -= damage;
