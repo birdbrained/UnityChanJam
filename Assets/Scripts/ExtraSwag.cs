@@ -10,11 +10,6 @@ public class ExtraSwag : MonoBehaviour
     void Start () 
     {
         swag = GameObject.Find("glasses");
-    }
-
-    // Update is called once per frame
-    void Update () 
-    {
         if (swag != null)
         {
             if (hasSwag)
@@ -24,8 +19,21 @@ public class ExtraSwag : MonoBehaviour
         }
     }
 
+    // Update is called once per frame
+    void Update () 
+    {
+
+    }
+
     public void ChangeSwag()
     {
         hasSwag = !hasSwag;
+        if (swag != null)
+        {
+            if (hasSwag)
+                swag.SetActive(true);
+            else
+                swag.SetActive(false);
+        }
     }
 }

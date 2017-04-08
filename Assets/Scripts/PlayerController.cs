@@ -23,8 +23,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject explosionObject;
     private bool canExplode = true;
-    [SerializeField]
+    //[SerializeField]
     private Material blownupMaterial;
+    
 
     /*
     private bool timerActive = false;
@@ -39,6 +40,9 @@ public class PlayerController : MonoBehaviour
         //GameManager.Instance.Health = health;
         maxHealth = health;
         rb = GetComponent<Rigidbody>();
+        SwapCar sc = GameManager.Instance.gameObject.GetComponent<SwapCar>();
+        blownupMaterial = sc.carBlownupMaterials[SwapCar.index];
+        //blownupMaterial 
     }
 
     // Update is called once per frame
