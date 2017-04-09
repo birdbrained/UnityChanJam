@@ -19,6 +19,8 @@ namespace UnityStandardAssets.Vehicles.Car
         private bool nitroing = false;
         [SerializeField]
         private GameObject part;
+
+        //private bool jumping = false;
        /* private static CarUserControl instance;
         public static CarUserControl Instance
         {
@@ -50,8 +52,17 @@ namespace UnityStandardAssets.Vehicles.Car
                 float h = Input.GetAxis("Horizontal");
                 float v = Input.GetAxis("Vertical");
 
-                float handbrake = (Input.GetAxis("Submit"));
+                float handbrake = (Input.GetAxis("Brake"));
                 m_Car.Move(h * nitroMultiplier, v * nitroMultiplier, v, handbrake-0.1f);
+
+                /*if (Input.GetAxisRaw("Jump1") != 0)
+                {
+                    if (!jumping)
+                    {
+                        Jump();
+                        jumping = true;
+                    }
+                }*/
             }
             if (Input.GetAxisRaw("LShift") != 0)
             {
@@ -110,5 +121,18 @@ namespace UnityStandardAssets.Vehicles.Car
                 Instantiate(boostSound, gameObject.transform.position, gameObject.transform.rotation);
             StartCoroutine(EnableSparklies());
         }
+
+        /*private void Jump()
+        {
+            //transform.Translate(Vector3.up * 260 * Time.deltaTime, Space.World);
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y + 10f, rb.velocity.z);
+        }*/
+
+        /*void OnCollisionEnter(Collision other)
+        {
+            Debug.Log(other.gameObject.tag);
+            if (other.gameObject.tag == "Untagged")
+                jumping = false;
+        }*/
     }
 }
