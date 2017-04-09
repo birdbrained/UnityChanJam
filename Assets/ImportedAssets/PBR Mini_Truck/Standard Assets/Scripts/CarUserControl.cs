@@ -10,6 +10,9 @@ namespace UnityStandardAssets.Vehicles.Car
         private CarController m_Car; // the car controller we want to use
 
         //Start: Matt's stuff
+        private Rigidbody rb;
+        [SerializeField]
+        private GameObject boostSound;
         public bool CanMove = true;
         private bool axisInUse = false;
         private float nitroMultiplier;
@@ -35,6 +38,7 @@ namespace UnityStandardAssets.Vehicles.Car
         {
             // get the car controller
             m_Car = GetComponent<CarController>();
+            rb = GetComponent<Rigidbody>();
             nitroMultiplier = 1f;
         }
 
@@ -55,7 +59,10 @@ namespace UnityStandardAssets.Vehicles.Car
                 {
                     //nitro
                     if (GameManager.Instance.NitroNum > 0)
-                        ApplyNitro();
+                    {
+                        //ApplyNitro();
+                        ApplyNitro2();
+                    }
                     //Debug.Log("Nitro here.");
                     axisInUse = true;
                 }
@@ -86,6 +93,22 @@ namespace UnityStandardAssets.Vehicles.Car
                 GameManager.Instance.NitroNum--;
                 StartCoroutine(Boost());
             }
+        }
+
+        private IEnumerator EnableSparklies()
+        {
+            part.SetActive(true);
+            yield return new WaitForSeconds(4f);
+            part.SetActive(false);
+        }
+
+        private void ApplyNitro2()
+        {
+            GameManager.Instance.NitroNum--;
+            rb.velocity += transform.forward * 20f;
+            if (boostSound != null)
+                Instantiate(boostSound, gameObject.transform.position, gameObject.transform.rotation);
+            StartCoroutine(EnableSparklies());
         }
     }
 }
