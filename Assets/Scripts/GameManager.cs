@@ -50,8 +50,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject nextLevelGate;
     private bool canSpawnGate;
+
     [SerializeField]
     private Image lvlScoreRing;
+    [SerializeField]
+    private Text lvlScoreText;
 
     private static bool timerActive = false;
     public bool TimerActive
@@ -170,6 +173,9 @@ public class GameManager : MonoBehaviour
 
         if (nitroRing != null)
             nitroRing.fillAmount = ((float)nitroNum / 3f);
+
+        if (lvlScoreText != null)
+            lvlScoreText.text = "Score\nneeded:\n" + CashifyIt(thisLevelGoal);
 
         if (lvlScoreRing != null)
             lvlScoreRing.fillAmount = ((float)thisLevelScore / (float)thisLevelGoal);
