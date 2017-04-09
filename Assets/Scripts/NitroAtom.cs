@@ -3,6 +3,8 @@ using System.Collections;
 
 public class NitroAtom : MonoBehaviour 
 {
+    [SerializeField]
+    private GameObject sound;
 
     // Use this for initialization
     void Start () 
@@ -27,6 +29,8 @@ public class NitroAtom : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             GiveNitro();
+            if (sound != null)
+                Instantiate(sound, gameObject.transform.position, gameObject.transform.rotation);
             Destroy(gameObject);
         }
     }

@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour
     // Use this for initialization
     void Start () 
     {
-        
+
     }
 
     // Update is called once per frame
@@ -43,4 +43,15 @@ public class Enemy : MonoBehaviour
             GetComponentInChildren<Renderer>().material = blownupMaterial;
         canExplode = false;
     }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Object" || other.gameObject.tag == "Front")
+        {
+            health = 0f;
+            GameManager.Instance.Score += 2500;
+            GameManager.Instance.ThisLevelScore += 2500;
+        }
+    }
+
 }
