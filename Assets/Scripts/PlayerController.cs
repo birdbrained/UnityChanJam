@@ -25,6 +25,17 @@ public class PlayerController : MonoBehaviour
     private bool canExplode = true;
     //[SerializeField]
     private Material blownupMaterial;
+
+    [SerializeField]
+    private float immortalTime;
+    public bool immortal = false;
+    public bool IsDead
+    {
+        get
+        {
+            return health <= 0;
+        }
+    }
     
 
     /*
@@ -107,9 +118,56 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.TimerActive = true;
     }
 
+    private IEnumerator IndicateImmortality()
+    {
+        MeshRenderer myMesh;
+
+        while (immortal)
+        {
+            foreach (Transform child in transform)
+            {
+                myMesh = child.GetComponent<MeshRenderer>();
+                if (myMesh != null)
+                    myMesh.enabled = false;
+            }
+
+            yield return new WaitForSeconds(0.1f);
+
+            foreach (Transform child in transform)
+            {
+                myMesh = child.GetComponent<MeshRenderer>();
+                if (myMesh != null)
+                    myMesh.enabled = true;
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    public IEnumerator TakeDamage(float damage, bool canBeImmortal)
+    {
+        if (!immortal)
+        {
+            health -= damage;
+            if (!IsDead && canBeImmortal)
+            {
+                immortal = true;
+                StartCoroutine(IndicateImmortality());
+                yield return new WaitForSeconds(immortalTime);
+                immortal = false;
+            }
+            else
+            {
+                yield return null;
+            }
+        }
+    }
+
     void OnCollisionEnter(Collision c)
     {
         int canGiveScore = 0;
+        bool canBeImmortal = false;
+
         GameObject other = c.collider.gameObject;
 
         //Debug.Log("HIT: " + other.gameObject.name + ", tag: " + other.gameObject.tag);
@@ -134,6 +192,7 @@ public class PlayerController : MonoBehaviour
         else if (other.gameObject.tag == "Wall")
         {
             damage = other.gameObject.GetComponent<Rigidbody>().mass * rb.velocity.magnitude;
+            canBeImmortal = true;
         }
         //Debug.Log("Damage: " + damage.ToString("F2"));
         //Hurt other object
@@ -152,7 +211,8 @@ public class PlayerController : MonoBehaviour
             //...but if they are already dead, you can't get more score from them
         }
 
-        health -= damage;
+        //health -= damage;
+        StartCoroutine(TakeDamage(damage, canBeImmortal));
         if (canGiveScore == 1)
         {
             GameManager.Instance.Score += (int)damage * 1000;

@@ -45,8 +45,8 @@ public class GameManager : MonoBehaviour
             thisLevelScore = value;
         }
     }
-    [SerializeField]
-    private int thisLevelGoal;
+    //[SerializeField]
+    public int thisLevelGoal;
     [SerializeField]
     private GameObject nextLevelGate;
     private bool canSpawnGate;
