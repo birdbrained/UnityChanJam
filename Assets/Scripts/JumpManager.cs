@@ -4,12 +4,14 @@ using System.Collections;
 public class JumpManager : MonoBehaviour 
 {
     private Rigidbody rb;
-    private bool jumping = false;
+    private bool jumping = true;
+    private AudioSource jumpSound;
 
     // Use this for initialization
     void Start () 
     {
         rb = GetComponentInParent<Rigidbody>();
+        jumpSound = GetComponent<AudioSource>();
     }
 	
     // Update is called once per frame
@@ -29,6 +31,7 @@ public class JumpManager : MonoBehaviour
     {
         //transform.Translate(Vector3.up * 260 * Time.deltaTime, Space.World);
         rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y + 10f, rb.velocity.z);
+        jumpSound.Play();
     }
 
     void OnTriggerEnter(Collider other)
