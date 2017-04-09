@@ -33,6 +33,24 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Text scoreText;
 
+    private static int thisLevelScore;
+    public int ThisLevelScore
+    {
+        get
+        {
+            return thisLevelScore;
+        }
+        set
+        {
+            thisLevelScore = value;
+        }
+    }
+    [SerializeField]
+    private int thisLevelGoal;
+    [SerializeField]
+    private GameObject nextLevelGate;
+    private bool canSpawnGate;
+
     private static bool timerActive = false;
     public bool TimerActive
     {
@@ -111,6 +129,10 @@ public class GameManager : MonoBehaviour
     void Start () 
     {
         //healthText.text = health.ToString("F2");
+        thisLevelScore = 0;
+        canSpawnGate = true;
+        if (nextLevelGate != null)
+            nextLevelGate.SetActive(false);
     }
 
     // Update is called once per frame
@@ -138,10 +160,26 @@ public class GameManager : MonoBehaviour
             nitroText.text = "NITRO: x" + nitroNum.ToString();
         else if (nitroText != null)
             nitroText.text = "";
+
+        //Spawn goal
+        if (thisLevelScore >= thisLevelGoal)
+        {
+            //Play sound
+            SpawnGoal();
+        }
     }
 
     public void ResetScore()
     {
         score = 0;
+    }
+
+    public void SpawnGoal()
+    {
+        if (canSpawnGate && nextLevelGate != null)
+        {
+            nextLevelGate.SetActive(true);
+            canSpawnGate = false;
+        }
     }
 }

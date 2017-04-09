@@ -154,6 +154,9 @@ public class PlayerController : MonoBehaviour
 
         health -= damage;
         if (canGiveScore == 1)
-            GameManager.Instance.Score += (int)damage * 1000; 
+        {
+            GameManager.Instance.Score += (int)damage * 1000;
+            GameManager.Instance.ThisLevelScore += (int)damage * 1000;
+        }
     }
 }
