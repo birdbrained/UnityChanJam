@@ -21,4 +21,9 @@ public class ChangeSceneButton : MonoBehaviour
     {
         SceneManager.LoadScene(s);
     }
+
+    public void DohQuitGame()
+    {
+        Application.Quit();
+    }
 }
