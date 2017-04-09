@@ -4,7 +4,7 @@ using System.Collections;
 public class JumpManager : MonoBehaviour 
 {
     private Rigidbody rb;
-    private bool jumping = true;
+    private bool jumping = false;
     private AudioSource jumpSound;
 
     // Use this for initialization

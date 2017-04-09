@@ -48,9 +48,12 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.tag == "Object" || other.gameObject.tag == "Front")
         {
-            health = 0f;
-            GameManager.Instance.Score += 2500;
-            GameManager.Instance.ThisLevelScore += 2500;
+            if (health > 0f)
+            {
+                GameManager.Instance.Score += 2500;
+                GameManager.Instance.ThisLevelScore += 2500;
+                health = 0f;
+            }
         }
     }
 
