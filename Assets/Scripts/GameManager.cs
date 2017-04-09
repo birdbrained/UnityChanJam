@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject nextLevelGate;
     private bool canSpawnGate;
+    [SerializeField]
+    private Image lvlScoreRing;
 
     private static bool timerActive = false;
     public bool TimerActive
@@ -81,6 +83,8 @@ public class GameManager : MonoBehaviour
     }
     [SerializeField]
     private Text nitroText;
+    [SerializeField]
+    private Image nitroRing;
 
     /*private static float health;
     public float Health
@@ -160,6 +164,15 @@ public class GameManager : MonoBehaviour
             nitroText.text = "NITRO: x" + nitroNum.ToString();
         else if (nitroText != null)
             nitroText.text = "";
+
+        if (nitroNum > 3)
+            nitroNum = 3;
+
+        if (nitroRing != null)
+            nitroRing.fillAmount = ((float)nitroNum / 3f);
+
+        if (lvlScoreRing != null)
+            lvlScoreRing.fillAmount = ((float)thisLevelScore / (float)thisLevelGoal);
 
         //Spawn goal
         if (thisLevelScore >= thisLevelGoal)
