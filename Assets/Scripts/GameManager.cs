@@ -49,6 +49,21 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Text timerText;
 
+    private static int nitroNum;
+    public int NitroNum
+    {
+        get
+        {
+            return nitroNum;
+        }
+        set
+        {
+            nitroNum = value;
+        }
+    }
+    [SerializeField]
+    private Text nitroText;
+
     /*private static float health;
     public float Health
     {
@@ -118,5 +133,15 @@ public class GameManager : MonoBehaviour
         }
         else if (!timerActive && timerText != null)
             timerText.text = "";
+
+        if (nitroText != null && nitroNum > 0)
+            nitroText.text = "NITRO: x" + nitroNum.ToString();
+        else if (nitroText != null)
+            nitroText.text = "";
+    }
+
+    public void ResetScore()
+    {
+        score = 0;
     }
 }

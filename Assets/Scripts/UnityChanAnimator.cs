@@ -5,6 +5,7 @@ public class UnityChanAnimator : MonoBehaviour
 {
     private Animator ani;
     private PlayerController player;
+    private bool animating = false;
 
     // Use this for initialization
     void Start () 
@@ -44,7 +45,7 @@ public class UnityChanAnimator : MonoBehaviour
 
         if (player.health > 0f)
         {
-            if (Input.GetAxis("Horizontal") < 0)
+            /*if (Input.GetAxis("Horizontal") < 0)
                 ani.Play("myUnitychan_turnLeft");
             else if (Input.GetAxis("Horizontal") > 0)
                 ani.Play("myUnitychan_turnRight");
@@ -53,12 +54,35 @@ public class UnityChanAnimator : MonoBehaviour
             else if (Input.GetAxis("Vertical") < 0)
                 ani.Play("myUnitychan_backward");
             else
-                ani.Play("myUnitychan_default");
+                ani.Play("myUnitychan_default");*/
+
+            //Debug.Log(Input.GetAxisRaw("Horizontal"));
+            if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+            {
+                ani.SetFloat("hor", Input.GetAxis("Horizontal"));
+                ani.SetFloat("ver", Input.GetAxis("Vertical"));
+            }
+
         }
         else
         {
-            ani.Play("myUnitychan_death");
+            //ani.Play("myUnitychan_death");
+            if (!animating)
+            {
+                ani.SetTrigger("die");
+                animating = true;
+            }
         }
+    }
+
+    void ResetTriggers()
+    {
+        /*ani.ResetTrigger("left");
+        ani.ResetTrigger("right");
+        ani.ResetTrigger("forward");
+        ani.ResetTrigger("backward");
+        ani.ResetTrigger("die");*/
+        ani.SetTrigger("default");
     }
 
     void ResetAnimations()

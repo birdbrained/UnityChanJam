@@ -8,7 +8,7 @@ public class AttachToObj : MonoBehaviour
     // Use this for initialization
     void Start () 
     {
-        attachToMe = GameObject.FindGameObjectWithTag("Player");
+        attachToMe = GameObject.Find("Player");
     }
 
     // Update is called once per frame
